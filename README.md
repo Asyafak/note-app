@@ -11,6 +11,7 @@ This project is a React application built with TypeScript and several powerful l
 - **React Icons**: Ready-to-use icons for UI components.
 - **React Select**: A flexible and customizable select/dropdown library.
 - **UUID**: For generating unique identifiers.
+- **tailwindcss**: For style,
 
 ---
 
@@ -62,10 +63,6 @@ Runs the app in the development mode. Open [http://localhost:5174] (http://local
 
 Builds the app for production to the `build` folder. It bundles React in production mode and optimizes the build for best performance.
 
-### `npm test`
-
-Launches the test runner in interactive watch mode.
-
 ### `npm run lint`
 
 Runs ESLint to check code quality.
@@ -92,6 +89,7 @@ Runs ESLint to check code quality.
 ### Utilities
 
 - **uuid**: ^11.0.3
+- **tailwindcss**: ^3.4.17,
 
 ### UI Enhancements
 
