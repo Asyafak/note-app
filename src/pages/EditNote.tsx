@@ -24,6 +24,8 @@ export default function EditNote() {
       <h1 className="text-2xl font-semibold mb-4">Edit Note</h1>
       <NoteForm
         onSubmit={onSubmit}
+        info={`cancle to edit your note on "${note.title}"`}
+        type="editNote"
         title={note.title}
         body={note.body}
         tags={note.tags}

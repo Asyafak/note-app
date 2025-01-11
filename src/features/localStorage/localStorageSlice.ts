@@ -127,3 +127,5 @@ export const {
   deleteNote,
 } = localStorageSlice.actions;
 export default localStorageSlice.reducer;
+
+export type DeleteNote = typeof localStorageSlice.actions.deleteNote;

@@ -2,13 +2,18 @@ import CreatableReactSelect from "react-select/creatable";
 import { v4 as uuidV4 } from "uuid";
 
 import { FormEvent, useRef, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../app/hook";
 import { NoteData, Tag } from "../features/localStorage/localStorageSlice";
 import { updateTags } from "../features/localStorage/localStorageSlice";
+import { createPortal } from "react-dom";
+import Alert from "./Alert";
+import { setAlert } from "../features/display/displaySlice";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
+  type: "editNote" | "createNote";
+  info: string;
 } & Partial<NoteData>;
 
 export default function NoteForm({
@@ -16,8 +21,11 @@ export default function NoteForm({
   title = "",
   tags = [],
   body = "",
+  type,
+  info,
 }: NoteFormProps) {
   const dispatch = useAppDispatch();
+  const alert = useAppSelector((state) => state.display.alert);
 
   const navigate = useNavigate();
 
@@ -39,9 +47,21 @@ export default function NoteForm({
     navigate("..");
   }
 
+  function handleCancle() {
+    if (
+      titleRef.current!.value !== "" ||
+      bodyRef.current!.value !== "" ||
+      type === "editNote"
+    ) {
+      dispatch(setAlert());
+      return;
+    }
+    navigate("..");
+  }
+
   return (
     <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 col-span-2 sm:col-span-1">
         <label className="font-medium text-xl" htmlFor="title">
           Title
         </label>
@@ -55,7 +75,7 @@ export default function NoteForm({
           className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400"
         />
       </div>
-      <div className="flex flex-col gap-2">
+      <div className="flex flex-col gap-2 col-span-2 sm:col-span-1">
         <label className="font-medium text-xl" htmlFor="tags">
           Tags
         </label>
@@ -109,15 +129,16 @@ export default function NoteForm({
         >
           Save
         </button>
-        <Link to="..">
-          <button
-            type="button"
-            className="py-2 px-4 border rounded-lg font-medium text-slate-400 hover:bg-slate-400 hover:text-white transition ease-in-out duration-300"
-          >
-            Cancel
-          </button>
-        </Link>
+        <button
+          type="button"
+          onClick={handleCancle}
+          className="py-2 px-4 border rounded-lg font-medium text-slate-400 hover:bg-slate-400 hover:text-white transition ease-in-out duration-300"
+        >
+          Cancel
+        </button>
       </div>
+      {alert &&
+        createPortal(<Alert type={type} info={`${info}"`} />, document.body)}
     </form>
   );
 }

@@ -24,7 +24,11 @@ export default function NewNote() {
   return (
     <>
       <h1 className="text-2xl font-semibold mb-4">New Note</h1>
-      <NoteForm onSubmit={onSubmit} />
+      <NoteForm
+        onSubmit={onSubmit}
+        type="createNote"
+        info="cancel to create Note"
+      />
     </>
   );
 }

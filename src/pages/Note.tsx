@@ -1,11 +1,14 @@
 import { Link } from "react-router-dom";
 import Tags from "../conponents/Tags";
 import ReactMarkdown from "react-markdown";
-import { useAppDispatch, useNote } from "../app/hook";
-import { deleteNote } from "../features/localStorage/localStorageSlice";
+import { useAppDispatch, useAppSelector, useNote } from "../app/hook";
+import Alert from "../conponents/Alert";
+import { setAlert } from "../features/display/displaySlice";
+import { createPortal } from "react-dom";
 
 export default function Note() {
   const note = useNote();
+  const alert = useAppSelector((state) => state.display.alert);
   const dispatch = useAppDispatch();
 
   return (
@@ -24,15 +27,13 @@ export default function Note() {
               Edit
             </button>
           </Link>
-          <Link to={"/"}>
-            <button
-              type="button"
-              onClick={() => dispatch(deleteNote({ id: note.id }))}
-              className="py-2 px-4 border border-red-500 rounded-lg font-medium text-sm sm:text-base text-red-500 hover:bg-red-500 hover:text-white transition ease-in-out duration-300"
-            >
-              Delete
-            </button>
-          </Link>
+          <button
+            type="button"
+            onClick={() => dispatch(setAlert())}
+            className="py-2 px-4 border border-red-500 rounded-lg font-medium text-sm sm:text-base text-red-500 hover:bg-red-500 hover:text-white transition ease-in-out duration-300"
+          >
+            Delete
+          </button>
           <Link to={"/"}>
             <button
               type="button"
@@ -44,6 +45,15 @@ export default function Note() {
         </div>
       </div>
       <ReactMarkdown>{note.body}</ReactMarkdown>
+      {alert &&
+        createPortal(
+          <Alert
+            type={"deleteNote"}
+            data={{ id: note.id }}
+            info={`delete this note "${note.title}"`}
+          />,
+          document.body
+        )}
     </div>
   );
 }
