@@ -1,5 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { v4 as uuidV4 } from "uuid";
+import { getInitialValue } from "../../assets/ts/getInitialValue";
 
 export type Note = Id & NoteData;
 
@@ -26,16 +27,6 @@ export type RawNoteData = {
 export type Tag = {
   id: string;
   label: string;
-};
-
-// // Helper function to get initial value from localStorage
-const getInitialValue = <T>(key: string, initialValue: T): T => {
-  const jsonValue = localStorage.getItem(key);
-  if (jsonValue == null) {
-    return typeof initialValue === "function" ? initialValue() : initialValue;
-  } else {
-    return JSON.parse(jsonValue);
-  }
 };
 
 export type LocalStorage = {

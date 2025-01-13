@@ -11,5 +11,6 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [import("@tailwindcss/typography")],
+  darkMode: "selector",
 };

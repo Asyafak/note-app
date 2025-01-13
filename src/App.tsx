@@ -16,14 +16,15 @@ export default function App() {
   const notes = useAppSelector((state) => state.localStorage.notes);
   const tags = useAppSelector((state) => state.localStorage.tags);
   const modal = useAppSelector((state) => state.display.modal);
+  const darkMode = useAppSelector((state) => state.display.darkMode);
 
   useEffect(() => {
     dispatch(updateNotesWithTags({ notes, tags }));
   }, [notes, tags, dispatch]);
 
   return (
-    <>
-      <div className="container p-4">
+    <div className={`${darkMode ? 'dark' : ''} dark:bg-slate-800 w-screen min-h-screen dark:text-white transition duration-300`}>
+      <div className="container">
         <Routes>
           <Route path="/" element={<NoteList />} />
           <Route path="/new" element={<NewNote />} />
@@ -35,7 +36,7 @@ export default function App() {
         </Routes>
       </div>
       {modal && <ModalTags />}
-    </>
+    </div>
   );
 }
 
@@ -45,7 +46,7 @@ function ModalTags() {
 
   return (
     <div className="fixed flex justify-center items-start top-0 left-0 h-screen w-screen bg-modal p-4">
-      <div className="flex flex-col p-4 rounded-lg w-full max-w-[36rem] bg-white gap-4">
+      <div className="flex flex-col p-4 rounded-lg w-full max-w-[36rem] bg-white gap-4 dark:bg-slate-950 shadow-lg">
         <div className="flex justify-between items-center pb-2 border-b">
           <h1 className="font-medium text-2xl px-2">Edit Tags</h1>
           <button
@@ -66,12 +67,12 @@ function ModalTags() {
                 onChange={(e) =>
                   dispatch(editTag({ id: tag.id, label: e.target.value }))
                 }
-                className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400 w-full"
+                className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400 w-full dark:bg-slate-950"
               />
               <button
                 type="button"
                 onClick={() => dispatch(deleteTags({ id: tag.id }))}
-                className="flex justify-center items-center w-9 h-9 border-2 rounded hover:text-red-500 hover:bg-red-100"
+                className="flex justify-center items-center w-9 h-9 border-2 rounded hover:text-red-500 hover:bg-red-100 dark:hover:bg-red-300 dark:hover:text-red-600"
               >
                 <CgClose />
               </button>

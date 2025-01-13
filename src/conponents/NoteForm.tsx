@@ -9,6 +9,7 @@ import { updateTags } from "../features/localStorage/localStorageSlice";
 import { createPortal } from "react-dom";
 import Alert from "./Alert";
 import { setAlert } from "../features/display/displaySlice";
+import { getCostumeStyles } from "../assets/style/reactSelect";
 
 type NoteFormProps = {
   onSubmit: (data: NoteData) => void;
@@ -26,6 +27,7 @@ export default function NoteForm({
 }: NoteFormProps) {
   const dispatch = useAppDispatch();
   const alert = useAppSelector((state) => state.display.alert);
+  const darkMode = useAppSelector((state) => state.display.darkMode);
 
   const navigate = useNavigate();
 
@@ -48,11 +50,7 @@ export default function NoteForm({
   }
 
   function handleCancle() {
-    if (
-      titleRef.current!.value !== "" ||
-      bodyRef.current!.value !== "" ||
-      type === "editNote"
-    ) {
+    if (titleRef.current!.value !== title || bodyRef.current!.value !== body) {
       dispatch(setAlert());
       return;
     }
@@ -60,7 +58,10 @@ export default function NoteForm({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="grid grid-cols-2 gap-4">
+    <form
+      onSubmit={handleSubmit}
+      className="flex-grow grid grid-cols-2 grid-rows-[auto,auto,1fr,auto] sm:grid-rows-[auto,1fr,auto] gap-4"
+    >
       <div className="flex flex-col gap-2 col-span-2 sm:col-span-1">
         <label className="font-medium text-xl" htmlFor="title">
           Title
@@ -72,7 +73,7 @@ export default function NoteForm({
           ref={titleRef}
           required
           defaultValue={title}
-          className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400"
+          className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400 dark:bg-slate-800"
         />
       </div>
       <div className="flex flex-col gap-2 col-span-2 sm:col-span-1">
@@ -106,6 +107,7 @@ export default function NoteForm({
               })
             );
           }}
+          styles={getCostumeStyles(darkMode)}
         />
       </div>
       <div className="col-span-2 flex flex-col gap-2">
@@ -118,8 +120,7 @@ export default function NoteForm({
           ref={bodyRef}
           defaultValue={body}
           required
-          rows={15}
-          className="outline-none w-full border-2 focus:border-sky-400 py-1 px-2 rounded"
+          className="outline-none w-full border-2 focus:border-sky-400 py-1 px-2 rounded h-full dark:bg-slate-800"
         ></textarea>
       </div>
       <div className="col-start-2 flex gap-2 justify-end">

@@ -4,7 +4,8 @@ import { useMemo, useState } from "react";
 import { Tag } from "../features/localStorage/localStorageSlice";
 import { Link } from "react-router-dom";
 import Tags from "./Tags";
-import { setModal } from "../features/display/displaySlice";
+import { setDarkMode, setModal } from "../features/display/displaySlice";
+import { getCostumeStyles } from "../assets/style/reactSelect";
 
 function NoteList() {
   const dispatch = useAppDispatch();
@@ -12,6 +13,7 @@ function NoteList() {
   const notesWithTags = useAppSelector(
     (state) => state.notesWithTags.notesTags
   );
+  const darkMode = useAppSelector((state) => state.display.darkMode);
 
   const [title, setTitle] = useState("");
   const [selectedTags, setSelectedTags] = useState<Tag[]>([]);
@@ -30,10 +32,27 @@ function NoteList() {
   }, [notesWithTags, selectedTags, title]);
 
   return (
-    <div className="container flex flex-col gap-4">
+    <div className="container p-4 flex flex-col gap-4">
       <div className="flex w-full justify-between">
         <h1 className="text-2xl font-semibold">Notes</h1>
-        <div className="flex gap-2">
+        <div className="flex gap-2 sm:gap-4 flex-wrap">
+          <button type="button">
+            <label htmlFor="toggle">
+              <input
+                type="checkbox"
+                name="toggle"
+                id="toggle"
+                checked={darkMode}
+                onChange={() => dispatch(setDarkMode())}
+                className="hidden"
+              />
+              <span
+                className={`flex bg-slate-200 h-7 w-12 rounded-full p-1 cursor-pointer justify-start dark:justify-end transition-all duration-300 dark:bg-slate-700`}
+              >
+                <span className="block rounded-full h-5 w-5 cursor-pointer bg-white dark:bg-slate-400" />
+              </span>
+            </label>
+          </button>
           <Link to={"/new"}>
             <button
               type="button"
@@ -63,7 +82,7 @@ function NoteList() {
               id="title"
               value={title}
               onChange={({ target }) => setTitle(target.value)}
-              className="outline-none border-2 rounded px-2 py-1 focus:border-sky-400"
+              className="outline-none text-slate-200 border-2 rounded px-2 py-1.5 focus:border-sky-400 dark:bg-slate-800"
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
@@ -88,6 +107,7 @@ function NoteList() {
                   })
                 );
               }}
+              styles={getCostumeStyles(darkMode)}
             />
           </div>
         </div>

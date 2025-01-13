@@ -1,5 +1,5 @@
 import { Link, useNavigate } from "react-router-dom";
-import { useAppDispatch } from "../app/hook";
+import { useAppDispatch, useAppSelector, useNote } from "../app/hook";
 import { deleteNote, Id } from "../features/localStorage/localStorageSlice";
 import { setAlert } from "../features/display/displaySlice";
 
@@ -12,35 +12,29 @@ type AlertProps = {
 export default function Alert({ type, data, info }: Partial<AlertProps>) {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-
-  console.log(info);
-
+  const note = useNote();
+    const darkMode = useAppSelector((state) => state.display.darkMode);
+  
   function handleConfirm() {
     switch (type) {
       case "editNote":
         dispatch(setAlert());
-        navigate("..");
-        console.log(type);
-        console.log(info);
+        navigate(`/${note.id}`);
         break;
       case "deleteNote":
         dispatch(setAlert());
         dispatch(deleteNote(data!));
-        console.log(type);
-        console.log(info);
         break;
       case "createNote":
         dispatch(setAlert());
-        navigate("/");
-        console.log(type);
-        console.log(info);
+        navigate("..");
         break;
     }
   }
 
   return (
-    <div className="fixed top-0 left-0 bottom-0 right-0 bg-modal flex justify-center items-center">
-      <div className="flex flex-col bg-white min-w-80 rounded w-[75%] max-w-[36rem] shadow-lg p-4 gap-4">
+    <div className={`${darkMode ? 'dark' : ''} fixed top-0 left-0 bottom-0 right-0 bg-modal flex justify-center items-center`}>
+      <div className="dark flex flex-col min-w-80 rounded w-[75%] max-w-[36rem] bg-white shadow-lg p-4 gap-4 dark:bg-slate-950 dark:text-white">
         <span>Do you want to {info}?</span>
         <div className="flex flex-wrap justify-end items-center gap-2">
           <Link to={"/"}>
