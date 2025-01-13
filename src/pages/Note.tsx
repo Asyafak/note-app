@@ -13,7 +13,7 @@ export default function Note() {
 
   return (
     <div className="flex flex-col gap-4 p-4">
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-4">
         <div className="flex flex-col gap-2 justify-start pr-1">
           <h1 className="font-semibold text-lg sm:text-xl">{note.title}</h1>
           {note.tags.length > 0 && <Tags tags={note.tags} justify="start" />}
@@ -44,7 +44,9 @@ export default function Note() {
           </Link>
         </div>
       </div>
-      <ReactMarkdown className="prose">{note.body}</ReactMarkdown>
+      <div className="prose dark:prose-invert prose-headings:m-0 2xl:prose-xl">
+        <ReactMarkdown>{note.body}</ReactMarkdown>
+      </div>
       {alert &&
         createPortal(
           <Alert

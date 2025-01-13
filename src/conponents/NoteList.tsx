@@ -47,9 +47,9 @@ function NoteList() {
                 className="hidden"
               />
               <span
-                className={`flex bg-slate-200 h-7 w-12 rounded-full p-1 cursor-pointer justify-start dark:justify-end transition-all duration-300 dark:bg-slate-700`}
+                className={`flex bg-slate-200 h-7 w-12 rounded-full p-1 cursor-pointer justify-start dark:bg-slate-700`}
               >
-                <span className="block rounded-full h-5 w-5 cursor-pointer bg-white dark:bg-slate-400" />
+                <span className="block rounded-full h-5 w-5 cursor-pointer bg-white dark:bg-slate-400 dark:translate-x-full transition-all duration-300" />
               </span>
             </label>
           </button>

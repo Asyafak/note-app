@@ -23,7 +23,11 @@ export default function App() {
   }, [notes, tags, dispatch]);
 
   return (
-    <div className={`${darkMode ? 'dark' : ''} dark:bg-slate-800 w-screen min-h-screen dark:text-white transition duration-300`}>
+    <div
+      className={`${
+        darkMode ? "dark" : ""
+      } dark:bg-slate-800 w-screen min-h-screen dark:text-white transition duration-300`}
+    >
       <div className="container">
         <Routes>
           <Route path="/" element={<NoteList />} />
@@ -45,8 +49,12 @@ function ModalTags() {
   const tags = useAppSelector((state) => state.localStorage.tags);
 
   return (
-    <div className="fixed flex justify-center items-start top-0 left-0 h-screen w-screen bg-modal p-4">
-      <div className="flex flex-col p-4 rounded-lg w-full max-w-[36rem] bg-white gap-4 dark:bg-slate-950 shadow-lg">
+    <div className="fixed flex justify-center items-start top-0 left-0 h-screen w-screen p-4">
+      <button
+        onClick={() => dispatch(setModal())}
+        className="absolute top-0 left-0 right-0 bottom-0 cursor-default bg-modal"
+      ></button>
+      <div className="flex flex-col p-4 rounded-lg w-full max-w-[36rem] bg-white gap-4 dark:bg-slate-950 shadow-lg z-10">
         <div className="flex justify-between items-center pb-2 border-b">
           <h1 className="font-medium text-2xl px-2">Edit Tags</h1>
           <button
