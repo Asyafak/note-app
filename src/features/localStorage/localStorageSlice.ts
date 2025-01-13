@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { v4 as uuidV4 } from "uuid";
 import { getInitialValue } from "../../assets/ts/getInitialValue";
+const { randomUUID } = globalThis.crypto;
 
 export type Note = Id & NoteData;
 
@@ -51,9 +51,10 @@ const localStorageSlice = createSlice({
   reducers: {
     updateNotes: (state, action: PayloadAction<Action<RawNoteData>>) => {
       const { key, value } = action.payload;
+      const id = randomUUID();
       localStorage.setItem(
         key,
-        JSON.stringify([...state.notes, { ...value, id: uuidV4() }])
+        JSON.stringify([...state.notes, { ...value, id }])
       );
       state.notes = getInitialValue<RawNote[]>("notes", []);
     },

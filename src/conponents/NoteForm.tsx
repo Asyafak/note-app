@@ -1,5 +1,5 @@
 import CreatableReactSelect from "react-select/creatable";
-import { v4 as uuidV4 } from "uuid";
+const { randomUUID } = globalThis.crypto;
 
 import { FormEvent, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -82,7 +82,8 @@ export default function NoteForm({
         </label>
         <CreatableReactSelect
           onCreateOption={(label) => {
-            const newtag = { id: uuidV4(), label };
+            const id = randomUUID();
+            const newtag = { id, label };
             dispatch(
               updateTags({
                 key: "tags",

@@ -82,7 +82,7 @@ function NoteList() {
               id="title"
               value={title}
               onChange={({ target }) => setTitle(target.value)}
-              className="outline-none text-slate-200 border-2 rounded px-2 py-1.5 focus:border-sky-400 dark:bg-slate-800"
+              className="outline-none text-slate-950 border-2 rounded px-2 py-1.5 focus:border-sky-400 dark:bg-slate-800"
             />
           </div>
           <div className="flex flex-col gap-2 w-full">
@@ -111,16 +111,32 @@ function NoteList() {
             />
           </div>
         </div>
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4 gap-4">
-          {filteredNotes.map((note) => (
-            <NoteCard
-              key={note.id}
-              id={note.id}
-              title={note.title}
-              tags={note.tags}
-            />
-          ))}
-        </div>
+        {notesWithTags.length === 0 ? (
+          <div className="flex justify-center mt-10">
+            <span className="text-slate-400">
+              You don't have note, you should{" "}
+              <Link to="/new">
+                <button
+                  type="button"
+                  className="text-blue-400 underline hover:opacity-70"
+                >
+                  create note
+                </button>
+              </Link>
+            </span>
+          </div>
+        ) : (
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 mb-4 gap-4">
+            {filteredNotes.map((note) => (
+              <NoteCard
+                key={note.id}
+                id={note.id}
+                title={note.title}
+                tags={note.tags}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

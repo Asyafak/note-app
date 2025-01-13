@@ -26,7 +26,7 @@ export default function App() {
     <div
       className={`${
         darkMode ? "dark" : ""
-      } dark:bg-slate-800 w-screen min-h-screen dark:text-white transition duration-300`}
+      } dark:bg-slate-800 w-screen min-h-screen text-slate-950 dark:text-white transition duration-300`}
     >
       <div className="container">
         <Routes>
